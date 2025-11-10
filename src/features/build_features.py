@@ -5,10 +5,11 @@ from DataTransformation import LowPassFilter, PrincipalComponentAnalysis
 from TemporalAbstraction import NumericalAbstraction
 
 
+
 # --------------------------------------------------------------
 # Load data
 # --------------------------------------------------------------
-
+df = pd.read_pickle("../../data/interim/02_outliers_removed_chauvenets.pkl")
 
 # --------------------------------------------------------------
 # Dealing with missing values (imputation)
