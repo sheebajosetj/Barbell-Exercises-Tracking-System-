@@ -17,6 +17,7 @@ plt.style.use("fivethirtyeight")
 plt.rcParams["figure.figsize"] = (20, 5)
 plt.rcParams["figure.dpi"] = 100
 
+
 df[["acc_x", "label"]].boxplot(by="label", figsize=(20,10))
 
 
@@ -70,11 +71,12 @@ def plot_binary_outliers(dataset, col, outlier_col, reset_index):
         shadow=True,
     )
     plt.show()
+    
 
 # --------------------------------------------------------------
 # Interquartile range (distribution based)
 # --------------------------------------------------------------
-
+# Insert IQR function
 def mark_outliers_iqr(dataset, col):
     """Function to mark values as outliers using the IQR method.
 
@@ -101,7 +103,6 @@ def mark_outliers_iqr(dataset, col):
     )
 
     return dataset
-# Insert IQR function
 
 
 # Plot a single column
@@ -216,7 +217,7 @@ for col in outlier_columns:
 # Check outliers grouped by label
 # --------------------------------------------------------------
 
-label = "bench"
+label = "squat"
 for col in outlier_columns:
     dataset = mark_outliers_iqr(df[df["label"] == label], col)
     plot_binary_outliers(dataset, col, col + "_outlier", reset_index = True)
@@ -226,7 +227,7 @@ for col in outlier_columns:
     dataset = mark_outliers_chauvenet(df[df["label"] == label], col)
     plot_binary_outliers(dataset, col, col + "_outlier", reset_index = True)
     
-
+ 
 # --------------------------------------------------------------
 # Choose method and deal with outliers
 # --------------------------------------------------------------
@@ -238,12 +239,12 @@ col = "gyr_z"
 dataset = mark_outliers_chauvenet(df, col = col)
 
 dataset[dataset["gyr_z_outlier"]]
-dataset.loc[dataset["gyr_z_outier"], "gyr_z"] = np.nan
+dataset.loc[dataset["gyr_z_outlier"], "gyr_z"] = np.nan
 
 
 # Create a loop
 
-outlier_removed_df = df.copy()
+outliers_removed_df = df.copy()
 for col in outlier_columns:
     for label in df["label"].unique():
         dataset = mark_outliers_chauvenet(df[df["label"] == label], col)
