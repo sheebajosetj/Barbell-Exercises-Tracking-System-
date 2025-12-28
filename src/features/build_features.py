@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from DataTransformation import LowPassFilter, PrincipalComponentAnalysis
 from TemporalAbstraction import NumericalAbstraction
+from FrequencyAbstraction  import FourierTransformation
 
 
 
@@ -13,7 +14,7 @@ df = pd.read_pickle("../../data/interim/02_outliers_removed_chauvenets.pkl")
 
 df.head()
 
-predictor_columns=list(df.columns[:6])
+predictor_columns = list(df.columns[:6])
 
 
 #Plot settings 
@@ -26,6 +27,7 @@ plt.rcParams["lines.linewidth"] = 2
 # --------------------------------------------------------------
 # Dealing with missing values (imputation)
 # --------------------------------------------------------------
+
 for col in predictor_columns:
     df[col] = df[col].interpolate()
 
@@ -145,11 +147,15 @@ df_temporal = pd.concat(df_temporal_list)
 
 df_temporal.info()
 
+subset[["acc_y", "acc_y_temp_mean_ws_5", "acc_y_temp_std_ws_5"]].plot()
+subset[["gyr_y", "gyr_y_temp_mean_ws_5", "agyr_y_temp_std_ws_5"]].plot()
+
+
 
 # --------------------------------------------------------------
 # Frequency features
 # --------------------------------------------------------------
-
+df_freq = df_temporal.copy().reset_index()
 
 # --------------------------------------------------------------
 # Dealing with overlapping windows
